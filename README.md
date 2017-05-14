@@ -38,18 +38,13 @@ module.exports = {
 
 ```js
 {
-  "main_js": ["https://s3.eamon.sh/my-app/main.js"],
-  "main_js_import": "<script src=\"https://s3.eamon.sh/my-app/main.js\"></script>",
-  "main_css": ["https://s3.eamon.sh/my-app/main.css"],
-  "main_css_import": "<link rel=\"stylesheet\" href=\"https://s3.eamon.sh/my-app/main.css\"/>",
-  
-  "admin_js": ["https://s3.eamon.sh/my-app/admin.js"],
-  "admin_js_import": "<script src=\"https://s3.eamon.sh/my-app/admin.js\"></script>",
-  "admin_css": ["https://s3.eamon.sh/my-app/admin.css"],
-  "admin_css_import": "<link rel=\"stylesheet\" href=\"https://s3.eamon.sh/my-app/admin.css\"/>",
+  "[entry]_js": ["[public-file-path].js"],
+  "[entry]_js_import": "<script src=\"[public-file-path].js\"></script>",
+  "[entry]_css": ["[public-file-path].css"],
+  "[entry]_css_import": "<link rel=\"stylesheet\" href=\"[public-file-path].css\"/>",
   
   "assets": [
-    "src/cat.gif": "https://s3.eamon.sh/my-app/df16d33739defe9bda1f4c45d36fd7a7.gif"
+    "src/cat.gif": "[public-file-path].gif"
   ]
 }
 ```
