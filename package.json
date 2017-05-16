@@ -1,6 +1,6 @@
 {
   "name": "better-stats-webpack-plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Better stats for webpack builds",
   "author": "Eamon Hyland <ehyland90@gmail.com> (https://eamon.sh/)",
   "license": "MIT",
