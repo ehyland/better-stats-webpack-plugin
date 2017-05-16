@@ -1,6 +1,6 @@
 {
   "name": "better-stats-webpack-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Better stats for webpack builds",
   "author": "Eamon Hyland <ehyland90@gmail.com> (https://eamon.sh/)",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/ehyland/webpack-better-stats.git"
   },
-  "main": "lib/WebpackBetterStats.js",
+  "main": "lib/BetterStatsWebpackPlugin.js",
   "devDependencies": {
     "chai": "^3.5.0",
     "css-loader": "^0.28.1",
