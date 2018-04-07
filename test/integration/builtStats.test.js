@@ -3,11 +3,11 @@ const sinon = require('sinon');
 const fs = require('fs-extra');
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BetterStats = require('../../lib/BetterStatsWebpackPlugin');
 
 const TEST_APP_PATH = path.resolve(__dirname, './resources/test-app');
-const WORKSPACES = path.resolve(__dirname, `./workspace_${Date.now()}`);
+const WORKSPACE_PREFIX = path.resolve(__dirname, `./test-app_${Date.now()}`);
 
 describe('built stats', () => {
     let count = 0;
@@ -16,7 +16,7 @@ describe('built stats', () => {
     let webpackOptions;
 
     beforeEach(() => {
-        workspace = path.resolve(WORKSPACES, `test-app_${++count}`);
+        workspace = WORKSPACE_PREFIX + `_${++count}`;
         statsFile = path.resolve(workspace, 'better-stats.json');
 
         webpackOptions = {
@@ -31,7 +31,10 @@ describe('built stats', () => {
                 rules: [
                     {
                         test: /\.css$/,
-                        use: ExtractTextWebpackPlugin.extract(['css-loader'])
+                        use: [
+                            MiniCssExtractPlugin.loader,
+                            'css-loader'
+                        ],
                     },
                     {
                         test: /\.gif$/,
@@ -40,7 +43,7 @@ describe('built stats', () => {
                 ]
             },
             plugins: [
-                new ExtractTextWebpackPlugin('[name].css'),
+                new MiniCssExtractPlugin({ filename: '[name].css' }),
                 new BetterStats({ statsFile })
             ]
         };
@@ -48,13 +51,19 @@ describe('built stats', () => {
         return fs.copy(TEST_APP_PATH, workspace);
     });
 
-    after(() =>
-        fs.remove(WORKSPACES)
+    afterEach(() =>
+        fs.remove(workspace)
     );
 
-    const runBuild = () => new Promise(resolve =>
-        webpack(webpackOptions).run(resolve)
-    );
+    const runBuild = () => new Promise((resolve, reject) => {
+        webpack(webpackOptions).run((err, stats) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(stats);
+            }
+        });
+    });
 
     const readStats = () => fs.readJson(statsFile);
 

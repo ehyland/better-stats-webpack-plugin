@@ -48,15 +48,15 @@ describe('BetterStatsWebpackPlugin', () => {
     describe('transform stats', () => {
         const getStats = (rawStatsJson) => {
             const rawStats = { toJson: sinon.stub().returns(rawStatsJson) };
-            const compiler = { plugin: sinon.stub() };
+            const compiler = { hooks: { afterEmit: { tapAsync: sinon.stub() } } };
             const compilation = {
                 options: { context: path.resolve(__dirname, '../../') },
                 getStats: sinon.stub().returns(rawStats)
             };
             const wbs = new BetterStats();
             wbs.apply(compiler);
-            assert(compiler.plugin.withArgs('after-emit').calledOnce, 'Expect done plugin to be registered');
-            compiler.plugin.withArgs('after-emit').lastCall.args[1](compilation);
+            assert(compiler.hooks.afterEmit.tapAsync.withArgs('BetterStatsWebpackPlugin').calledOnce, 'Expect done plugin to be registered');
+            compiler.hooks.afterEmit.tapAsync.withArgs('BetterStatsWebpackPlugin').lastCall.args[1](compilation);
             assert(mocks.fs.writeFile.calledOnce, 'Expect writeFile called');
             return JSON.parse(mocks.fs.writeFile.lastCall.args[1]);
         };
